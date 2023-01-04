@@ -96,7 +96,7 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 					channelCount = document->channelCount;
 				}
 				else
-				{		
+				{
 					channelCount = document->channelCount - 3;
 				}
 				imageResources->alphaChannelCount = channelCount;
@@ -234,10 +234,10 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 					channelCount = document->channelCount;
 				}
 				else
-				{		
+				{
 					channelCount = document->channelCount - 3;
 				}
-			
+
 				imageResources->alphaChannelCount = channelCount;
 				imageResources->alphaChannels = memoryUtil::AllocateArray<AlphaChannel>(allocator, channelCount);
 			}
@@ -261,6 +261,39 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 					imageResources->alphaChannels[channel].asciiName.Assign(channelName);
 					++channel;
 				}
+			}
+		}
+		break;
+		case imageResource::DISPLAY_INFO_CS3:
+		{
+			// check whether storage for alpha channels has been allocated yet
+			// (imageResource::ALPHA_CHANNEL_ASCII_NAMES stores the channel names)
+			if (!imageResources->alphaChannels)
+			{
+				unsigned int channelCount;
+				if (document->colorMode == colorMode::MULTICHANNEL)
+				{
+					channelCount = document->channelCount;
+				}
+				else
+				{
+					channelCount = document->channelCount - 3;
+				}
+
+				imageResources->alphaChannelCount = channelCount;
+				imageResources->alphaChannels = memoryUtil::AllocateArray<AlphaChannel>(allocator, channelCount);
+			}
+			for (unsigned int i = 0; i < imageResources->alphaChannelCount; i++)
+			{
+				AlphaChannel *alphaChannel = &imageResources->alphaChannels[i];
+				alphaChannel->colorSpace = fileUtil::ReadFromFileBE<uint16_t>(reader);
+				alphaChannel->color[0] = fileUtil::ReadFromFileBE<uint16_t>(reader);
+				alphaChannel->color[1] = fileUtil::ReadFromFileBE<uint16_t>(reader);
+				alphaChannel->color[2] = fileUtil::ReadFromFileBE<uint16_t>(reader);
+				alphaChannel->color[3] = fileUtil::ReadFromFileBE<uint16_t>(reader);
+				alphaChannel->opacity = fileUtil::ReadFromFileBE<uint16_t>(reader);
+				alphaChannel->kind = fileUtil::ReadFromFileBE<uint8_t>(reader);
+				alphaChannel->padding = fileUtil::ReadFromFileBE<uint8_t>(reader);
 			}
 		}
 		break;

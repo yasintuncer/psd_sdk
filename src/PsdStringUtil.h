@@ -24,9 +24,7 @@ namespace stringUtil
 	/// \param alloc The mem allocator
 	/// \return wchar_t* nullptr on error
 	///
-	wchar_t *ConvertString(const char *str, Allocator *alloc);
-	std::wstring to_wstring(const char *ch);
-	const wchar_t *to_wchar(const char *str);
+	const wchar_t *ConvertString(const char *str);
 
 }
 

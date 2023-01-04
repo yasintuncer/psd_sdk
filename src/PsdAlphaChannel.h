@@ -30,6 +30,9 @@ struct AlphaChannel
 	uint16_t color[4];				 ///< 16-bit color data with 0 being black and 65535 being white (assuming RGBA).
 	uint16_t opacity;				 ///< The channel's opacity in the range [0, 100].
 	uint8_t mode;					 ///< The channel's mode, one of AlphaChannel::Mode.
+	//CS3 addition
+	uint8_t kind;					 ///< Selected or protected (not used yet).
+	uint8_t padding;				 ///< should be 0 
 };
 
 	enum COLOR_SPACE

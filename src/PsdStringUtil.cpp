@@ -28,18 +28,24 @@ namespace stringUtil
 		return buffer;
 	}
 	
-	std::wstring to_wstring(const char *ch)
+	const wchar_t* ConvertString(const char* s)
 	{
-		std::string str = ch;
-		std::wstring wstr(str.length(), 'L');
-		std::copy(str.begin(), str.end(), wstr.begin());
-		return wstr;
+		if (s == nullptr)
+		{
+			return nullptr;
+		}
+		wchar_t* buffer;
+		size_t n = std::strlen(s) + 1;
+		buffer = static_cast<wchar_t*>(std::malloc(n * sizeof(wchar_t)));
+		std::memset(buffer, 0, n * sizeof(wchar_t));
+		if (buffer == nullptr)
+		{
+			return nullptr;
+		}
+		std::mbstowcs(buffer, s, n);
+		return buffer;
 	}
 
-	const wchar_t *to_wchar(const char *str)
-	{
-		return to_wstring(str).c_str();
-	}
 
 
 }
