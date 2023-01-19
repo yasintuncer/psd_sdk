@@ -2,10 +2,13 @@
 
 #include "PsdStringUtil.h"
 #include "PsdMemoryUtil.h"
-
 #include <cwchar>
 #include <cstdlib>
 #include <cstring>
+#include <codecvt>
+#include <string>
+#include <locale>
+
 PSD_NAMESPACE_BEGIN
 
 namespace stringUtil
@@ -24,29 +27,32 @@ namespace stringUtil
 		{
 			return nullptr;
 		}
-		std::wcstombs(buffer, ws, n);
+		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+		std::string narrow = converter.to_bytes(ws);
+		std::strcpy(buffer, narrow.c_str());
 		return buffer;
 	}
-	
-	const wchar_t* ConvertString(const char* s)
-	{
-		if (s == nullptr)
+
+	const wchar_t *ConvertString(const char *s)
+	{	if( s == nullptr )
 		{
 			return nullptr;
 		}
-		wchar_t* buffer;
+		wchar_t *buffer;
 		size_t n = std::strlen(s) + 1;
-		buffer = static_cast<wchar_t*>(std::malloc(n * sizeof(wchar_t)));
+		buffer = static_cast<wchar_t *>(std::malloc(n * sizeof(wchar_t)));
 		std::memset(buffer, 0, n * sizeof(wchar_t));
 		if (buffer == nullptr)
 		{
 			return nullptr;
 		}
-		std::mbstowcs(buffer, s, n);
+		
+		//for turkish character exception
+		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+		std::wstring wide = converter.from_bytes(s);
+		std::wcscpy(buffer, wide.c_str());
 		return buffer;
 	}
-
-
 
 }
 
