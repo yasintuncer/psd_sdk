@@ -10,11 +10,9 @@ add_compile_options(-std=c++11)
 
 
 
-## include directories
-set(PSD_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
-set(PSD_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
 
-
+set(PSD_HEADERS "")
+set(PSD_LIBS psd)
 
 if(WIN32)
     add_library(psd STATIC
@@ -72,15 +70,12 @@ endif(UNIX)
 target_include_directories(psd PUBLIC src)
 target_link_libraries(psd rt)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/src/*.h)
+list (APPEND PSD_HEADERS ${headers})
 file(GLOB c_headers ${PROJECT_SOURCE_DIR}/src/*.c)
+list(APPEND PSD_HEADERS ${c_headers})
 file(GLOB inlines ${PROJECT_SOURCE_DIR}/src/*.inl)
-
-
-install (TARGETS psd LIBRARY DESTINATION ${PSD_LIB_DIR})
-install (FILES ${headers} DESTINATION ${PSD_INCLUDE_DIR})
-install (FILES ${c_headers} DESTINATION ${PSD_INCLUDE_DIR})
-install (FILES ${inlines} DESTINATION ${PSD_INCLUDE_DIR})
-
+list(APPEND PSD_HEADERS ${inlines})
+set(PSD_HEADERS ${PSD_HEADERS} PARENT_SCOPE)
 include_directories(src/)
 add_executable(psd_test test/psd_test.cpp)
 target_link_libraries(psd_test psd)
