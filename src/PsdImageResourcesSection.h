@@ -28,7 +28,7 @@ struct ImageResourcesSection
 	bool containsRealMergedData;			///< Whether the PSD contains real merged data.
 
 	char* xmpMetadata;						///< Raw XMP metadata.
-
+	uint32_t sizeOfXmpMetadata;
 	Thumbnail* thumbnail;					///< JPEG thumbnail.
 };
 

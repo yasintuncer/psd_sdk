@@ -198,6 +198,7 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 			// load the XMP metadata as raw data
 			PSD_ASSERT(!imageResources->xmpMetadata, "File contains more than one XMP metadata resource.");
 			imageResources->xmpMetadata = memoryUtil::AllocateArray<char>(allocator, resourceSize);
+			imageResources->sizeOfXmpMetadata = resourceSize;
 			reader.Read(imageResources->xmpMetadata, resourceSize);
 		}
 		break;
