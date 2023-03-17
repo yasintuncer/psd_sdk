@@ -89,15 +89,19 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 			// (imageResource::ALPHA_CHANNEL_ASCII_NAMES stores the channel names)
 			if (!imageResources->alphaChannels)
 			{
-				unsigned int channelCount;
+				unsigned int channelCount = document->channelCount;
 
 				if (document->colorMode == colorMode::MULTICHANNEL)
 				{
 					channelCount = document->channelCount;
 				}
-				else
+				else if(document->colorMode == colorMode::RGB || document->colorMode == colorMode::LAB)
 				{
 					channelCount = document->channelCount - 3;
+				}
+				else if(document->colorMode == colorMode::CMYK)
+				{
+					channelCount = document->channelCount - 4;
 				}
 				imageResources->alphaChannelCount = channelCount;
 				imageResources->alphaChannels = memoryUtil::AllocateArray<AlphaChannel>(allocator, channelCount);
@@ -230,13 +234,18 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 			if (!imageResources->alphaChannels)
 			{
 				unsigned int channelCount;
+			
 				if (document->colorMode == colorMode::MULTICHANNEL)
 				{
 					channelCount = document->channelCount;
 				}
-				else
+				else if(document->colorMode == colorMode::RGB || document->colorMode == colorMode::LAB)
 				{
 					channelCount = document->channelCount - 3;
+				}
+				else if(document->colorMode == colorMode::CMYK)
+				{
+					channelCount = document->channelCount - 4;
 				}
 
 				imageResources->alphaChannelCount = channelCount;
@@ -272,13 +281,18 @@ ImageResourcesSection *ParseImageResourcesSection(const Document *document, File
 			if (!imageResources->alphaChannels)
 			{
 				unsigned int channelCount;
+				
 				if (document->colorMode == colorMode::MULTICHANNEL)
 				{
 					channelCount = document->channelCount;
 				}
-				else
+				else if(document->colorMode == colorMode::RGB || document->colorMode == colorMode::LAB)
 				{
 					channelCount = document->channelCount - 3;
+				}
+				else if(document->colorMode == colorMode::CMYK)
+				{
+					channelCount = document->channelCount - 4;
 				}
 
 				imageResources->alphaChannelCount = channelCount;
