@@ -10,7 +10,7 @@
 /// \ingroup Platform
 /// Enables/disables the use of the \ref PSD_WARNING and \ref PSD_ERROR macros. If disabled, these macros will not generate any instructions.
 /// \sa PSD_WARNING PSD_ERROR
-#define PSD_ENABLE_LOGGING 1
+#define PSD_ENABLE_LOGGING 0
 
 
 /// \def PSD_WARNING
